@@ -111,6 +111,14 @@ inspect_workspace(path="/home/runner/vulcanbench/workspace/task-1")
 - `python3 test_e2e.py` — drives the real MCP stdio transport (initialize →
   tools/call) and asserts CORRUPTED / CLEAN thread through the wire
 
+## Part of a family
+
+This is one of three **deterministic, no-LLM** agent-trust MCP servers by `sudo-ai-git`:
+
+- [`mcp-skill-sec`](https://github.com/sudo-ai-git/mcp-skill-sec) — pre-install skill/security audit
+- [`mcp-verify-claim`](https://github.com/sudo-ai-git/mcp-verify-claim) — evidence-gated, honestly-tiered claim reporting
+- [`mcp-benchmark-hygiene`](https://github.com/sudo-ai-git/mcp-benchmark-hygiene) — pytest config-leakage / eval-honesty detection (this repo)
+
 ## License & provenance
 
 MIT. Independently derived from the documented VulcanBench #79 finding; no
