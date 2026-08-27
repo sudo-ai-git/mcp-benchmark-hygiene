@@ -67,6 +67,18 @@ Only gates that change exit codes / abort grading are flagged. A harmless
 
 ## Install & run (MCP stdio)
 
+**One command (recommended) — installs from the repo, no PyPI token needed:**
+
+```bash
+uv tool install git+https://github.com/sudo-ai-git/mcp-benchmark-hygiene
+mcp-benchmark-hygiene                        # run stdio server
+mcp-benchmark-hygiene --http --port 8137     # or Streamable HTTP
+```
+
+Or with `pipx`: `pipx install git+https://github.com/sudo-ai-git/mcp-benchmark-hygiene`
+
+**Direct from source (fallback):**
+
 ```json
 { "mcpServers": {
     "benchmark-hygiene": { "command": "python3", "args": ["/abs/path/to/mcp_server.py"] }

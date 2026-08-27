@@ -210,6 +210,7 @@ def build_app():
 
 
 def _main() -> None:
+    """Console-script entry point (also used by `python3 mcp_server.py`)."""
     import argparse
     p = argparse.ArgumentParser(description="mcp-benchmark-hygiene MCP server")
     p.add_argument("--http", action="store_true",
@@ -234,6 +235,8 @@ def _main() -> None:
 _inspect_workspace_impl = inspect_workspace
 _check_addopts_impl = check_addopts
 _summarize_impl = summarize
+
+main_entry = _main  # console-script entry point
 
 
 if __name__ == "__main__":

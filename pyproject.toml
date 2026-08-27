@@ -1,19 +1,33 @@
 [build-system]
-requires = ["setuptools>=61"]
+requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "mcp-benchmark-hygiene"
-version = "1.0.1"
-description = "MCP server detecting pytest config-leakage that corrupts agent-benchmark grading (deterministic, no-LLM)"
+version = "1.0.0"
+description = "Detect pytest config-leakage that corrupts agent-benchmark grading. Deterministic, no-LLM."
 readme = "README.md"
 requires-python = ">=3.9"
 license = { text = "MIT" }
-dependencies = ["mcp>=1.0"]
+authors = [{ name = "sudo-ai-git", email = "sudo-ai-git@users.noreply.github.com" }]
+keywords = ["mcp", "mcp-server", "pytest", "agent-eval", "benchmark", "ai-evaluation", "llm-agents", "coverage"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Topic :: Software Development :: Testing",
+]
+dependencies = [
+    "mcp>=1.0",
+]
 
 [project.urls]
+Homepage = "https://github.com/sudo-ai-git/mcp-benchmark-hygiene"
 Repository = "https://github.com/sudo-ai-git/mcp-benchmark-hygiene"
-Source = "https://github.com/sudo-ai-git/mcp-benchmark-hygiene"
+
+[project.scripts]
+mcp-benchmark-hygiene = "mcp_server:main_entry"
 
 [tool.setuptools]
 py-modules = ["mcp_server"]
