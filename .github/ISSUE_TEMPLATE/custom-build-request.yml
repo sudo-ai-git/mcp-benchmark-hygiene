@@ -1,0 +1,53 @@
+name: "💼 Request a custom MCP / agent build"
+description: Tell me what agent→internal-system connector you need. This is the intake for fixed-scope custom engagements.
+title: "[build request] <what you want connected>"
+labels: [build-request]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reaching out. I build production MCP servers + agent verification
+        layers. This intake gets you a same-day scoping note with a fixed price band —
+        no commitment.
+
+        Reference (MIT, public, E2E-tested): `mcp-skill-sec`, `mcp-verify-claim`,
+        `mcp-benchmark-hygiene`, and a documented benchmark-forensics finding
+        (`vulcanbench-findings`).
+
+  - type: textarea
+    id: system
+    attributes:
+      label: "What internal system do you want agent-reachable?"
+      description: "e.g. our fleet DB (Postgres), the legal case-management API (Clio), the ops telemetry store (Prometheus)."
+      placeholder: "We want our coding agent to query the ops telemetry store..."
+    validations:
+      required: true
+  - type: dropdown
+    id: outcome
+    attributes:
+      label: "What should the agent be able to do once connected?"
+      options:
+        - "Read data (read-only access)"
+        - "Read + write (with auth + logging)"
+        - "Full workflow (read/write + action gating)"
+    validations:
+      required: true
+  - type: input
+    id: auth
+    attributes:
+      label: "Auth model available"
+      description: "OAuth2 / bearer token / mTLS / service account — what can we integrate against?"
+      placeholder: "OAuth2 client"
+  - type: input
+    id: contact
+    attributes:
+      label: "Contact (email or handle)"
+      description: "Where I send the scoping note."
+      placeholder: "you@company.com"
+    validations:
+      required: true
+  - type: markdown
+    attributes:
+      value: |
+        Typical: $8K–$50K fixed, milestone-billed (40% kickoff / 60% acceptance),
+        2–3 weeks. HIPAA / SOC2 scoping handled carefully — just note if it applies.

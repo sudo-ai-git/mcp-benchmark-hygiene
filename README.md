@@ -135,3 +135,7 @@ This is one of three **deterministic, no-LLM** agent-trust MCP servers by `sudo-
 
 MIT. Independently derived from the documented VulcanBench #79 finding; no
 endorsement by or affiliation with morganlinton/VulcanBench implied.
+
+## Hire a custom integration
+
+Need this connected to *your* internal system (auth, logging, security-scan pass, hosted)? Open a [custom-build request](https://github.com/sudo-ai-git/agensi-builds/issues/new?template=custom-build-request.yml). MIT reference assets are free to use either way.
