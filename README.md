@@ -1,5 +1,7 @@
 # mcp-benchmark-hygiene
 
+> `mcp-name: io.github.sudo-ai-git/mcp-benchmark-hygiene`
+
 **Deterministic detection of pytest config-leakage that silently corrupts
 agent-benchmark / function grading.**
 
