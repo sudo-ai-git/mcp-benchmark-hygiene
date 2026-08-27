@@ -1,0 +1,16 @@
+# mcp-benchmark-hygiene
+
+> Deterministic, no-LLM MCP server that detects pytest config-leakage which silently corrupts agent-benchmark / function grading. Answers: "If I run `python -m pytest <tests>` inside this workspace, will it inherit a host coverage/abort gate that mis-scores passing code as failed?"
+
+## When to use
+- Agent evaluation / SWE-bench-style harnesses that run pytest inside a workspace nested under a repo root carrying pytest `addopts`.
+- Any reproducibility pipeline where a repo-root `[tool.pytest.ini_options] addopts` (e.g. `--cov --cov-fail-under`) would leak into hidden-test runs.
+
+## Key facts
+- No LLM. No network. Deterministic. MIT. Crown-jewel-free.
+- Catches the exact failure mode where functionally-passing code is scored FAILED because pytest inherits a coverage/abort gate from an ancestor rootdir.
+
+## Links
+- Repo: https://github.com/sudo-ai-git/mcp-benchmark-hygiene
+- server.json: https://github.com/sudo-ai-git/mcp-benchmark-hygiene/blob/main/server.json
+- Full README: https://github.com/sudo-ai-git/mcp-benchmark-hygiene/blob/main/README.md
