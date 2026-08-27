@@ -75,6 +75,16 @@ Requires the official `mcp` python package (`pip install mcp`). The deterministi
 core (`inspect_workspace` / `check_addopts` / `summarize`) imports and runs with
 **zero** dependencies — the `mcp` package is only needed for the stdio server.
 
+### Streamable HTTP (remote/Smithery-publishable)
+
+```bash
+python3 mcp_server.py --http --port 8137   # serves on http://<host>:8137/mcp/
+```
+
+Run with `--http` to serve over Streamable HTTP (a remote MCP endpoint) instead of
+stdio. This is the transport `smithery mcp publish <url>` expects for URL-based
+publishing — so once a Smithery service token exists, the server deploys as-is.
+
 ## Example
 
 ```

@@ -177,12 +177,12 @@ def summarize(analysis: Dict[str, Any]) -> str:
     return f"[CLEAN] {analysis['workspace']} — no pytest addopts inherited."
 
 
-def _main() -> None:
-    if FastMCP is None:
-        print("ERR: mcp package not installed ('pip install mcp')", file=sys.stderr)
-        sys.exit(1)
-    mcp = FastMCP("mcp-benchmark-hygiene")
+def _register_tools(mcp) -> None:
+    """Register the three MCP tools on a FastMCP instance.
 
+    Kept separate so both the stdio and the Streamable-HTTP transports expose the
+    identical toolset (and so the wrappers call the *Impl core, not themselves).
+    """
     @mcp.tool()
     def inspect_workspace(path: str) -> Dict[str, Any]:
         """Check whether running pytest inside `path` will inherit addopts that
@@ -199,7 +199,34 @@ def _main() -> None:
         """One-line actionable summary of an inspect_workspace() result dict."""
         return _summarize_impl(analysis)
 
-    mcp.run()
+
+def build_app():
+    """Build the FastMCP app with tools registered (shared by stdio + HTTP)."""
+    if FastMCP is None:
+        raise RuntimeError("mcp package not installed ('pip install mcp')")
+    mcp = FastMCP("mcp-benchmark-hygiene")
+    _register_tools(mcp)
+    return mcp
+
+
+def _main() -> None:
+    import argparse
+    p = argparse.ArgumentParser(description="mcp-benchmark-hygiene MCP server")
+    p.add_argument("--http", action="store_true",
+                   help="serve over Streamable HTTP (default: stdio)")
+    p.add_argument("--host", default="0.0.0.0", help="HTTP bind host")
+    p.add_argument("--port", type=int, default=8000, help="HTTP port")
+    args = p.parse_args()
+
+    mcp = build_app()
+    if args.http:
+        # Streamable HTTP — remote-deployable (e.g. `smithery mcp publish <url>`).
+        import uvicorn
+        app = mcp.streamable_http_app()
+        print(f"[mcp-benchmark-hygiene] serving Streamable HTTP on {args.host}:{args.port}", flush=True)
+        uvicorn.run(app, host=args.host, port=args.port, log_level="warning")
+    else:
+        mcp.run()  # stdio (default)
 
 
 # ── renames: the MCP tool wrappers above shadow the module fns; the impls live
