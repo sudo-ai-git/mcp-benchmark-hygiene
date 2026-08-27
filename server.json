@@ -1,0 +1,30 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.sudo-ai-git/mcp-benchmark-hygiene",
+  "description": "Detect pytest config-leakage that corrupts agent-benchmark grading. Deterministic, no-LLM.",
+  "author": "sudo-ai-git",
+  "license": "MIT",
+  "repository": {
+    "url": "https://github.com/sudo-ai-git/mcp-benchmark-hygiene",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "packages": [
+    {
+      "registryType": "pypi",
+      "identifier": "mcp-benchmark-hygiene",
+      "version": "1.0.0",
+      "downloadUrl": "https://github.com/sudo-ai-git/mcp-benchmark-hygiene/releases/download/v1.0.0/mcp-benchmark-hygiene-1.0.0.tar.gz",
+      "metadata": {
+        "description": "Detect pytest config-leakage that corrupts agent-benchmark grading. Deterministic, no-LLM.",
+        "author": "sudo-ai-git",
+        "license": "MIT",
+        "longDescription": "Deterministic detection of pytest config-leakage that silently corrupts agent-benchmark / function grading.\n\nAnswers: 'if I run python -m pytest <tests> inside this workspace, will it inherit a host coverage/abort gate that mis-scores passing code as failed?'\n\nNo LLM. No network. Catches the exact bug documented in sudo-ai-git/vulcanbench-findings (VulcanBench declarative grader mis-scoring every functional task as 0.0 due to a repo-root pytest-cov addopts leak).\n\nTools: inspect_workspace(path), check_addopts(path), summarize(analysis).",
+        "releaseNotes": "Initial release"
+      },
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ]
+}
