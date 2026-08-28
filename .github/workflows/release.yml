@@ -1,54 +1,61 @@
 name: release
 
 # Formalizes registry auto-indexing + PyPI publish for the MCP server.
-# - On a v* tag: builds sdist+wheel, publishes to PyPI (only if the PYPI_API_TOKEN
-#   secret is set — safe to run pre-token), and attaches the wheel to a GitHub
-#   Release. GitHub Releases + PyPI are both crawled by MCP.so / Glama / PulseMCP /
-#   Smithery / the Official MCP Registry, so this wires the passive-discovery
-#   channel and removes the manual release step.
+# - On a v* tag: a release-only job (which runs unconditionally) builds+validates the
+#   wheel and creates a GitHub Release (crawled by MCP.so/Glama/PulseMCP/Smithery),
+#   and a SEPARATE publish job runs ONLY when the PYPI_API_TOKEN secret is configured
+#   (job-level `if` with secrets IS supported — step-level is not reliable, verified).
+# - Safe pre-token: the release job always succeeds; publish job is skipped.
 on:
   push:
     tags:
       - "v*"
-  workflow_dispatch:  # allow manual trigger
+  workflow_dispatch:
 
 permissions:
   contents: write
 
 jobs:
-  build-and-publish:
+  build-release:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-
       - name: Install build tooling
         run: python -m pip install --upgrade build
-
       - name: Build sdist + wheel
         run: python -m build
-
       - name: Sanity-check the wheel installs and the console script resolves
         run: |
           python -m pip install --upgrade pip
           python -m pip install dist/*.whl
-          # the console script must exist and resolve to main_entry (no crash on import)
           python -c "import mcp_server; import importlib.metadata as m; eps=[e for e in m.entry_points(group='console_scripts') if 'mcp' in e.name]; print('console scripts:', [e.name for e in eps])"
           python -c "import ast; ast.parse(open('mcp_server.py').read()); print('mcp_server.py parses OK')"
-
-      - name: Publish to PyPI (requires PYPI_API_TOKEN secret — no-op if absent)
-        if: env.PYPI_API_TOKEN_IS_SET
-        run: |
-          python -m pip install --upgrade twine
-          python -m twine upload --non-interactive dist/* -u __token__ -p "${{ secrets.PYPI_API_TOKEN }}"
-        env:
-          PYPI_API_TOKEN_IS_SET: ${{ secrets.PYPI_API_TOKEN != '' }}
-
       - name: Create GitHub Release with wheel
         uses: softprops/action-gh-release@v2
         with:
           files: dist/*.whl
           generate_release_notes: true
+
+  # Runs ONLY when the user has set the PYPI_API_TOKEN secret. Job-level `if`
+  # evaluating a secret IS supported by GitHub Actions. Until the token exists this
+  # job is skipped (status: skipped, NOT failure) — no 403 on an empty token.
+  publish-pypi:
+    needs: build-release
+    if: ${{ secrets.PYPI_API_TOKEN != '' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Build sdist + wheel
+        run: |
+          python -m pip install --upgrade build
+          python -m build
+      - name: Publish to PyPI
+        run: |
+          python -m pip install --upgrade twine
+          python -m twine upload --non-interactive dist/* -u __token__ -p "${{ secrets.PYPI_API_TOKEN }}"
