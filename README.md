@@ -131,6 +131,8 @@ This is one of three **deterministic, no-LLM** agent-trust MCP servers by `sudo-
 - [`mcp-verify-claim`](https://github.com/sudo-ai-git/mcp-verify-claim) — evidence-gated, honestly-tiered claim reporting
 - [`mcp-benchmark-hygiene`](https://github.com/sudo-ai-git/mcp-benchmark-hygiene) — pytest config-leakage / eval-honesty detection (this repo)
 
+**Sibling product:** [`mcp-token-saver`](https://github.com/sudo-ai-git/mcp-token-saver) — token-cost proxy + analyzer for agent conversations (dedupes redundant tokens before they're billed; live-proven 74% cut). [Discussion](https://github.com/sudo-ai-git/mcp-token-saver/discussions/1)
+
 ## License & provenance
 
 MIT. Independently derived from the documented VulcanBench #79 finding; no
