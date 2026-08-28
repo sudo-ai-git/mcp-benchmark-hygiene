@@ -1,0 +1,9 @@
+# Smithery deployment config for mcp-benchmark-hygiene
+# See https://smithery.ai/docs/build for the schema.
+startCommand:
+  type: stdio
+  configSchema:
+    type: object
+    properties: {}
+  commandFunction: |
+    (config) => ({ command: 'python3', args: ['/app/mcp_server.py'] })
