@@ -133,6 +133,8 @@ This is one of three **deterministic, no-LLM** agent-trust MCP servers by `sudo-
 
 **Sibling product:** [`mcp-token-saver`](https://github.com/sudo-ai-git/mcp-token-saver) — token-cost proxy + analyzer for agent conversations (dedupes redundant tokens before they're billed; live-proven 74% cut). [Discussion](https://github.com/sudo-ai-git/mcp-token-saver/discussions/1)
 
+**Also in the family** (a free CLI, not an MCP server): [`harness-audit`](https://github.com/sudo-ai-git/harness-audit) — deterministic agent-eval / benchmark-grading hygiene audit that catches the same silent config-leakage mis-scoring class. Free lead-magnet; the same verification discipline, zero dependencies, auditable line-by-line.
+
 ## License & provenance
 
 MIT. Independently derived from the documented VulcanBench #79 finding; no
